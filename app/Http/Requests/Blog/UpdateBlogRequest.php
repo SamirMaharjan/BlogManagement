@@ -26,6 +26,7 @@ class UpdateBlogRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'id'=>'required',
             'title' => 'required|string|max:255',
             'content' => 'required|string',
             'images' => 'nullable|array', // Multiple images allowed

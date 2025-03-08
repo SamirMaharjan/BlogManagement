@@ -16,8 +16,7 @@
                 <!-- Content -->
                 <div class="mb-4">
                     <label class="block text-sm font-medium text-gray-700">Content</label>
-                    <textarea v-model="form.content"
-                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
+                    <textarea v-model="form.content" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"
                         :class="{ 'border-red-500': errors.content }"></textarea>
                     <p v-if="errors.content" class="mt-1 text-sm text-red-600">{{ errors.content[0] }}</p>
                 </div>
@@ -27,9 +26,9 @@
                     <label class="block text-sm font-medium text-gray-700">Existing Images</label>
                     <div class="flex flex-wrap gap-2 mt-2">
                         <div v-for="(image, index) in form.images" :key="image.id" class="relative">
-                            <img :src="image.url" alt="Blog Image" class="w-24 h-24 object-cover rounded-md border">
-                            <button type="button"
-                                @click="removeExistingImage(image.id, index)"
+                            <img :src="getImageUrl(image.path)" alt="Blog Image"
+                                class="w-20 h-20 object-cover rounded-md border border-gray-300">
+                            <button type="button" @click="removeExistingImage(image.id, index)"
                                 class="absolute top-0 right-0 bg-red-500 text-white p-1 rounded-full text-xs">
                                 ✖
                             </button>
@@ -41,7 +40,6 @@
                 <div class="mb-4">
                     <label class="block text-sm font-medium text-gray-700">Upload Image</label>
                     <div id="dropzone" class="dropzone border-dashed border-2 border-gray-300 p-4 text-center">
-                        <p>Drop an image here or click to upload</p>
                     </div>
                     <p v-if="errors.image" class="mt-1 text-sm text-red-600">{{ errors.image[0] }}</p>
                 </div>
@@ -97,6 +95,8 @@ export default {
                 this.form = { id: null, title: '', content: '', images: [], image: null };
                 this.removedImages = [];
             }
+            console.log(blog);
+
 
             this.$nextTick(() => {
                 this.initializeDropzone();
@@ -132,12 +132,16 @@ export default {
             this.removedImages.push(imageId);
             this.form.images.splice(index, 1);
         },
+        getImageUrl(path) {
+            return `/storage/${path}`;
+        },
         async submitForm() {
             this.isSubmitting = true;
             this.errors = {};
 
             try {
                 const formData = new FormData();
+                formData.append('id', this.form.id);
                 formData.append('title', this.form.title);
                 formData.append('content', this.form.content);
 

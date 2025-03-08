@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('User Index') }}
+            {{ __('Blog Index') }}
         </h2>
     </x-slot>
 
@@ -12,11 +12,11 @@
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 text-gray-900">
                         <div class="flex justify-between items-center mb-6">
-                            <h2 class="text-2xl font-semibold">User List</h2>
+                            <h2 class="text-2xl font-semibold">Blog List</h2>
                             <!-- Use Vue @click to call the modal's openModal method -->
                             <button @click="$refs.blogModal.openModal()"
                                 class="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600">
-                                + Create User
+                                + Create Blog
                             </button>
                         </div>
 
@@ -72,7 +72,7 @@
             </div>
         </div>
 
-        <!-- Vue User Modal Component with ref -->
+        <!-- Vue Blog Modal Component with ref -->
         <blog-modal ref="blogModal"></blog-modal>
         <delete-blog-modal ref="deleteModal"></delete-blog-modal>
         

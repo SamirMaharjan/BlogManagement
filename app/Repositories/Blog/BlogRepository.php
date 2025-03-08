@@ -10,6 +10,7 @@ use App\Models\Blog;
 use App\Repositories\BaseRepository;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class BlogRepository extends BaseRepository implements BlogRepositoryInterface
 {
@@ -71,46 +72,63 @@ class BlogRepository extends BaseRepository implements BlogRepositoryInterface
     public function addBlog(CreateBlogRequest $newValidatedData)
     {
 
-    
-
         $blog = Blog::create([
             'title' => $newValidatedData['title'],
             'slug' => $newValidatedData['title'],
             'user_id' => auth()->user()->id,
             'content' => $newValidatedData['content']
         ]);
-    
-        if ($newValidatedData->hasFile('image')) {
-            foreach ($newValidatedData->file('image') as $image) {
-                $imagePath = $image->store('blogs', 'public');
-    
-                // Attach multiple images
-                $blog->images()->create(['path' => $imagePath]);
-            }
-        }
-        // dd($user);
-        // $user->save();
 
+        if ($newValidatedData->hasFile('image')) {
+            // dd($newValidatedData->image);
+            // foreach ($newValidatedData->file('image') as $image) {
+            // dd($image);
+            // $imagePath = $image->store('blogs', 'public');
+            $imagePath = Storage::disk('public')->put('blogs', $newValidatedData->image);
+
+            // Attach multiple images
+            $blog->images()->create(['path' => $imagePath, 'file_name' => $blog->title . rand(1, 100)]);
+        }
     }
     public function updateBlog(UpdateBlogRequest $newValidatedData)
     {
-        // Find the user
-        $user = Blog::findOrFail($newValidatedData->id);
+        // Find the blog post
+        $blog = Blog::findOrFail($newValidatedData->id);
 
-        // Prepare an array of fields to update
-        $data = [
-            'name' => $newValidatedData->name,
-            'email' => $newValidatedData->email,
-        ];
+        // Update blog details
+        $blog->update([
+            'title' => $newValidatedData['title'],
+            'slug' => $newValidatedData['title'],
+            'content' => $newValidatedData['content']
+        ]);
 
-        // Conditionally add the password if it exists in the request
-        if ($newValidatedData->filled('password')) {
-            $data['password'] = Hash::make($newValidatedData->password);
+        // Handle new image upload
+        if ($newValidatedData->hasFile('image')) {
+            // Store the new image
+            $imagePath = Storage::disk('public')->put('blogs', $newValidatedData->image);
+
+            // Save new image record
+            $blog->images()->create([
+                'path' => $imagePath,
+                'file_name' => $blog->title . rand(1, 100)
+            ]);
         }
 
-        // Update the user with the data
-        $user->update($data);
+    // Remove images if requested
+    if ($newValidatedData->filled('remove_images')) {
+        foreach ($newValidatedData->remove_images as $imageId) {
+            $image = $blog->images()->find($imageId);
+            if ($image) {
+                // Delete image from storage
+                Storage::disk('public')->delete($image->path);
+                // Remove from database
+                $image->delete();
+            }
+        }
     }
+
+    // return response()->json(['message' => 'Blog updated successfully!', 'blog' => $blog]);
+}
     public function viewBlog($id){
        $Blog = Blog::where('id',$id)->select(['id', 'name', 'description', 'levels_id'])->first();
        return $Blog;

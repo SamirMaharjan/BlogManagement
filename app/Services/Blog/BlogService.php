@@ -11,6 +11,7 @@ use App\Traits\ResponseMessage;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -52,6 +53,7 @@ class BlogService extends BaseService
     {
         $paginatedData = $this->BlogInterface->paginated_list($limit, $filters);
         // Return a LengthAwarePaginator for Blade view
+        // dd($paginatedData);
         return $paginatedData;
     }
     public function addBlog(Request $newValidatedData): Response
@@ -80,6 +82,8 @@ class BlogService extends BaseService
                 $this->BlogInterface->updateBlog($newValidatedData);
             });
         } catch (\Exception $e) {
+            Log::error($e);
+
             return $this->failedResponse(
                 $message = $e->getMessage(),
                 $code = Response::HTTP_INTERNAL_SERVER_ERROR

@@ -1,11 +1,11 @@
 <template>
     <div v-if="isModalOpen" class="fixed inset-0 z-50 bg-gray-500 bg-opacity-50 flex justify-center items-center">
         <div class="bg-white p-6 rounded-md w-1/3">
-            <h2 class="text-lg font-medium text-gray-900">Are you sure you want to delete this user?</h2>
+            <h2 class="text-lg font-medium text-gray-900">Are you sure you want to delete this blog?</h2>
 
             <div class="mt-4">
-                <p class="text-gray-700">This action is irreversible. The user will be permanently deleted.</p>
-                <p class="font-bold text-gray-800 mt-2">User: {{ form.name }}</p>
+                <p class="text-gray-700">This action is irreversible. The blog will be permanently deleted.</p>
+                <p class="font-bold text-gray-800 mt-2">Blog: {{ form.name }}</p>
             </div>
 
             <div class="mt-6 flex justify-end">
@@ -41,14 +41,14 @@ export default {
         };
     },
     methods: {
-        openDeleteModal(user) {
+        openDeleteModal(blog) {
             this.isModalOpen = true;
             this.errors = {};
 
-            if (user) {
+            if (blog) {
                 this.form = {
-                    id: user.id,
-                    name: user.name
+                    id: blog.id,
+                    name: blog.title
                 };
             } else {
                 this.form = {
@@ -72,10 +72,10 @@ export default {
                     'Accept': 'application/json'
                 };
 
-                // Send DELETE request to the backend to delete the user
-                const response = await axios.delete(`/api/user/${this.form.id}`, { headers });
+                // Send DELETE request to the backend to delete the blog
+                const response = await axios.delete(`/api/blog/${this.form.id}`, { headers });
 
-                // this.$emit('user-deleted', this.form.id);
+                // this.$emit('blog-deleted', this.form.id);
                 toastr.success(response.data.message);
                 setTimeout(() => {
                     window.location.reload();
@@ -84,13 +84,13 @@ export default {
 
 
             } catch (error) {
-                console.error('Error deleting user:', error);
+                console.error('Error deleting blog:', error);
 
-                // Handle errors (e.g., if user is not found or any server issue)
+                // Handle errors (e.g., if blog is not found or any server issue)
                 if (error.response && error.response.status === 422) {
                     this.errors = error.response.data.errors || {};
                 } else {
-                    toastr.error('An error occurred while deleting the user.');
+                    toastr.error('An error occurred while deleting the blog.');
                     setTimeout(() => {
                         window.location.reload();
                     }, 1000);
