@@ -158,15 +158,15 @@ export default {
                 let response;
                 if (this.isEdit) {
                     formData.append('_method', 'PUT');
-                    response = await axios.post(`/api/blog/${this.form.id}`, formData);
+                    response = await axios.post(`/blog/${this.form.id}`, formData);
                 } else {
-                    response = await axios.post('/api/blog', formData);
+                    response = await axios.post('/blog', formData);
                 }
 
                 toastr.success(response.data.message);
-                // setTimeout(() => {
-                //     window.location.reload();
-                // }, 1000);
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1000);
 
                 this.closeModal();
             } catch (error) {

@@ -125,11 +125,11 @@ export default {
 
                 if (this.isEdit) {
                     // Update existing user
-                    response = await axios.put(`/api/user/${this.form.id}`, payload, { headers });
+                    response = await axios.put(`/user/${this.form.id}`, payload, { headers });
                     this.$emit('user-updated', response.data);
                 } else {
                     // Create new user
-                    response = await axios.post('/api/user', payload, { headers });
+                    response = await axios.post('/user', payload, { headers });
                     this.$emit('user-created', response.data);
                 }
                 console.log(response);

@@ -130,7 +130,7 @@ class BlogRepository extends BaseRepository implements BlogRepositoryInterface
     // return response()->json(['message' => 'Blog updated successfully!', 'blog' => $blog]);
 }
     public function viewBlog($id){
-       $Blog = Blog::where('id',$id)->select(['id', 'name', 'description', 'levels_id'])->first();
+       $Blog = Blog::where('id',$id)->with('images')->first();
        return $Blog;
     }
     public function deleteBlog($id){

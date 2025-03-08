@@ -73,7 +73,7 @@ export default {
                 };
 
                 // Send DELETE request to the backend to delete the blog
-                const response = await axios.delete(`/api/blog/${this.form.id}`, { headers });
+                const response = await axios.delete(`/blog/${this.form.id}`, { headers });
 
                 // this.$emit('blog-deleted', this.form.id);
                 toastr.success(response.data.message);

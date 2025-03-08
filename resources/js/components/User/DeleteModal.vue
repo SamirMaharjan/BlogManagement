@@ -73,7 +73,7 @@ export default {
                 };
 
                 // Send DELETE request to the backend to delete the user
-                const response = await axios.delete(`/api/user/${this.form.id}`, { headers });
+                const response = await axios.delete(`/user/${this.form.id}`, { headers });
 
                 // this.$emit('user-deleted', this.form.id);
                 toastr.success(response.data.message);
@@ -91,9 +91,6 @@ export default {
                     this.errors = error.response.data.errors || {};
                 } else {
                     toastr.error('An error occurred while deleting the user.');
-                    setTimeout(() => {
-                        window.location.reload();
-                    }, 1000);
                 }
             } finally {
                 this.isSubmitting = false;

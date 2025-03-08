@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Api\Blog\BlogController as BlogBlogController;
+use App\Http\Controllers\Api\User\UserController as UserUserController;
 use App\Http\Controllers\Blog\BlogController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\User\UserController;
@@ -15,12 +17,14 @@ Route::get('/dashboard', function () {
 
 Route::get('/user',[UserController::class,'userList'])->name('users.index');
 Route::get('/blog',[BlogController::class,'blogList'])->name('blogs.index');
-// Route::get('/user-create',[UserController::class,'createUser'])->name('users.create');
-// Route::post('/user-store',[UserController::class,'storeUser'])->name('users.store');
-// Route::put('/user/update',[UserController::class,'storeUser'])->name('users.update');
-// Route::get('/user/{id}',[UserController::class,'userList'])->name('users.show');
-// Route::get('/user-edit/{id}',[UserController::class,'userEdit'])->name('users.edit');
-// Route::get('/user-delete/{id}',[UserController::class,'userDelete'])->name('users.destroy');
+
+Route::post('/user', [UserUserController::class, 'storeUser']);   // Store user
+Route::put('/user/{user}', [UserUserController::class, 'updateUser']);  // Update user
+Route::delete('/user/{user}', [UserController::class, 'deleteUser']);  // Update user
+
+Route::post('/blog', [BlogBlogController::class, 'storeBlog']);   // Store blog
+Route::put('/blog/{blog}', [BlogBlogController::class, 'updateBlog']);  // Update blog
+Route::delete('/blog/{blog}', [BlogBlogController::class, 'deleteBlog']);  // Update user
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

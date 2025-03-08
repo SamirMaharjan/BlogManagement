@@ -39,6 +39,11 @@
                                             <td class="px-2 py-2 border-b text-center">
                                                 <!-- Use @click with $refs to open the modal in edit mode -->
                                                 <button data-blog='@json($blog)'
+                                                    @click="$refs.blogDetailModal.openModal(JSON.parse($event.currentTarget.dataset.blog))"
+                                                    class="px-2 py-2 bg-green-500 text-white  border border-gray-300 rounded-md font-semibold text-xs text-black uppercase tracking-widest hover:bg-green-800 hover:text-black">
+                                                    View
+                                                </button>
+                                                <button data-blog='@json($blog)'
                                                     @click="$refs.blogModal.openModal(JSON.parse($event.currentTarget.dataset.blog))"
                                                     class="px-2 py-2 bg-blue-500 text-white  border border-gray-300 rounded-md font-semibold text-xs text-black uppercase tracking-widest hover:bg-blue-800 hover:text-black">
                                                     Edit
@@ -74,6 +79,7 @@
 
         <!-- Vue Blog Modal Component with ref -->
         <blog-modal ref="blogModal"></blog-modal>
+        <blog-detail-modal ref="blogDetailModal"></blog-detail-modal>
         <delete-blog-modal ref="deleteModal"></delete-blog-modal>
         
     </div>
