@@ -48,7 +48,10 @@ This will create the necessary tables and seed some initial data.
 
 ### 6. Start the Backend Server
 ```sh
+php artisan key:generate
+php artisan storage:link
 php artisan serve
+
 ```
 
 ### 7. Start the Frontend Development Server
@@ -83,5 +86,6 @@ You can check the API documentation using Postman:
   php artisan migrate:fresh --seed
   ```
 
-Happy coding! 🚀
-
+credentials:
+test@gmail.com
+password
