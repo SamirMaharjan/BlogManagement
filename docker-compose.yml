@@ -55,10 +55,13 @@ services:
       - mysql_data:/var/lib/mysql
     networks:
       - laravel_network
+    command: --default-authentication-plugin=mysql_native_password --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --performance-schema=OFF --innodb-buffer-pool-size=128M
 
 networks:
   laravel_network:
     driver: bridge
+  default:
+    driver: host
 
 volumes:
   mysql_data:

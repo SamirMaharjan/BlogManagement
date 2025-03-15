@@ -61,10 +61,7 @@
                                 </tbody>
                             </table>
                              <div class="flex justify-between items-center mt-4">
-                            {{-- <div class="text-sm text-gray-700">
-                                Showing {{ $response->firstItem() }} to {{ $response->lastItem() }} of
-                                {{ $response->total() }} blogs
-                            </div> --}}
+                         
                             <div>
                                 {{ $response->links('vendor.pagination.tailwind') }} <!-- Tailwind pagination -->
                             </div>

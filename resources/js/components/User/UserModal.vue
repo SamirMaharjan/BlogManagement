@@ -135,9 +135,9 @@ export default {
                 console.log(response);
 
                 toastr.success(response.data.message);
-                setTimeout(() => {
-                    window.location.reload();
-                }, 1000);
+                // setTimeout(() => {
+                //     window.location.reload();
+                // }, 1000);
                 // console.log('User saved:', response.data);
                 this.closeModal();
 

@@ -114,3 +114,5 @@ docker-compose exec app npm run build
 # Optimize Laravel
 docker-compose exec app php artisan optimize
 ```
+ docker-compose exec app bash
+ 

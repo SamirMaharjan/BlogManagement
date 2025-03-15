@@ -16,6 +16,7 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/user',[UserController::class,'userList'])->name('users.index');
+Route::get('vue/user',[UserUserController::class,'list']);
 Route::get('/blog',[BlogController::class,'blogList'])->name('blogs.index');
 
 Route::post('/user', [UserUserController::class, 'storeUser']);   // Store user
@@ -33,3 +34,4 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
+// require __DIR__.'/vue.php';
